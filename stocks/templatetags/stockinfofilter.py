@@ -4,13 +4,14 @@ register = template.Library()
 
 @register.filter
 def get(mapping, key):
-    return mapping.get(key, '')
+    """Retrieve a key from a dictionary with default handling."""
+    if isinstance(mapping, dict):
+        return mapping.get(key, 'N/A')
+    return "Invalid Data"
 
 @register.filter
-def removedot(id):
-    return id.replace('.', '')
-
-@register.filter
-def getchange(mapping):
-    change = mapping.get('Quote Price') - mapping.get('Previous Close')
-    return change
+def removedot(value):
+    """Remove dots from stock symbols to avoid HTML ID issues."""
+    if isinstance(value, str):
+        return value.replace('.', '_')
+    return value
